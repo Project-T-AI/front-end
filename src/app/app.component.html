@@ -1,1 +1,15 @@
-<editor-mockup></editor-mockup>
+<input type="checkbox" class="theme-controller" value="dracula" />
+
+<ng-container [ngSwitch]="jornada">
+    <ng-container *ngSwitchCase="'home'" [ngTemplateOutlet]="home"></ng-container>
+    <ng-container *ngSwitchCase="'gerador'" [ngTemplateOutlet]="gerador"></ng-container>
+</ng-container>
+<app-menu-inferior [quantidadeCarrinho]="quantidadeCarrinho" (jornadaEscolhida)="atualizarJornada($event)"></app-menu-inferior>
+
+<ng-template #home>
+    <app-home></app-home>
+</ng-template>
+
+<ng-template #gerador>
+    <app-gerador-ia></app-gerador-ia>
+</ng-template>
