@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import Cropper from 'cropperjs';
 
 @Component({
-  selector: 'editor-mockup',
+  selector: 'app-editor-mockup',
   standalone: true,
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

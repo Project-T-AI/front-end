@@ -8,8 +8,14 @@ module.exports = {
   },
   daisyui: {
     themes: [
-      "nord",
-      "dracula"
+      "sunset",
+      {
+        "autumn": {
+          ...require("daisyui/src/theming/themes")["autumn"],
+          "primary-content": "#FAFAFA"
+        }
+      },
+      
     ],
   },
   plugins: [require("daisyui")],
