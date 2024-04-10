@@ -2,10 +2,7 @@ import { MenuInferiorComponent } from './menu-inferior/menu-inferior.component';
 import { HomeComponent } from './home/home.component';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-import { GeradorIaComponent } from './gerador-ia/gerador-ia.component';
-import { ContaComponent } from './conta/conta.component';
-import { CarrinhoComponent } from './carrinho/carrinho.component';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -13,13 +10,10 @@ import { CarrinhoComponent } from './carrinho/carrinho.component';
     templateUrl: './app.component.html',
     styleUrl: './app.component.less',
     imports: [
-      CommonModule, 
+      CommonModule,
       RouterOutlet, 
       MenuInferiorComponent,
-      HomeComponent,
-      GeradorIaComponent, 
-      CarrinhoComponent,
-      ContaComponent
+      HomeComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
@@ -28,7 +22,7 @@ export class AppComponent {
   jornada:string = "home";
   quantidadeCarrinho:number = 1;
 
-  constructor() {
+  constructor(private router:Router) {
   }
 
   ngOnInit() {
@@ -36,7 +30,7 @@ export class AppComponent {
   }
 
   atualizarJornada(jornada:string) {
-    this.jornada = jornada;
+    this.router.navigate([jornada], { skipLocationChange: true });
   }
 
   carregarTema() {

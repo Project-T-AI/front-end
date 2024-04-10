@@ -1,26 +1,4 @@
-<app-introducao></app-introducao>
-<div class="relative h-full">
-    <div class="navbar absolute bottom-0">
-        <div class="w-1/3 flex justify-end">
-            <button *ngIf="(paginaIndex !== 0)" class="btn btn-ghost transition-all" (click)="anterior()">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                </svg>
-                Anterior
-            </button>
-        </div>
-        <div class="w-1/3 flex gap-2 justify-center">
-            <progress [ngClass]="{'w-2/12': (i == paginaIndex)}" class="progress progress-primary w-1/12 transition-all" value="{{(i == paginaIndex) ? 100 : 0}}" max="100" *ngFor="let e of [].constructor(numPaginas); let i = index"></progress>
-        </div>
-        <div class="w-1/3 justify-start">
-            <button *ngIf="(paginaIndex !== numPaginas - 1)" class="btn btn-ghost transition-all" (click)="proximo()">
-                Próximo
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                </svg>
-            </button>
-        </div>
-    </div>
+
+<div class="relative h-full p-3">
+    <router-outlet></router-outlet>
 </div>

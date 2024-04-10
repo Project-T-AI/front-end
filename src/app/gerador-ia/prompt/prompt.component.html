@@ -1,0 +1,45 @@
+<div class="w-full flex flex-col h-full justify-center gap-2">
+    <div class="w-full relative">
+        <img class="rounded-sm object-cover object-top" width="640" height="896" [ngSrc]="bannerPrompt"
+            alt="Camiseta" />
+    </div>
+    <div class="flex flex-col gap-1">
+        <h2 class="w-full text-sm">Digite sua arte:</h2>
+        <textarea class="textarea textarea-bordered w-full h-32" placeholder="Um gato astronauta tomando café..."></textarea>
+        <div class="flex flex-row justify-end gap-2 items-center">
+            <span class="text-sm">Proporção da imagem:</span>
+            <input type="radio" aria-label="1:1" class="btn btn-xs" name="proporcao-imagem" checked/>
+            <input type="radio" aria-label="4:3" class="btn btn-xs" name="proporcao-imagem"/>
+            <input type="radio" aria-label="3:4" class="btn btn-xs" name="proporcao-imagem"/>
+            <!--button class="btn btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 16 16"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path
+                        d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                </svg>
+                1:1
+            </button>
+
+            <button class="btn btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 16 16"
+                    stroke="currentColor" stroke-width="1" transform="rotate(90)">
+                    <path
+                        d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1" />
+                </svg>
+                4:3
+            </button>
+
+            <button class="btn btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 16 16"
+                    stroke="currentColor" stroke-width="1">
+                    <path
+                        d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1" />
+                </svg>
+                3:4
+            </button-->
+        </div>
+        <button class="btn bg-gradient-to-r from-primary to-secondary btn-block text-base text-primary-content font-semibold mt-4">        
+            Gerar imagem
+        </button>
+    </div>
+</div>

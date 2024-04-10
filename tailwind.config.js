@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Nunito", "sans-serif"]
+      }
+    },
   },
   daisyui: {
     themes: [
@@ -15,7 +19,6 @@ module.exports = {
           "primary-content": "#FAFAFA"
         }
       },
-      
     ],
   },
   plugins: [require("daisyui")],
