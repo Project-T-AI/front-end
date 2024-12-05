@@ -1,1 +1,25 @@
-<p>previa works!</p>
+<div class="w-full flex flex-col h-full gap-8">
+    <div class="navbar bg-base-100">
+        <div class="navbar-start">
+            <button (click)="voltarParaPrompt()">
+                <svg class="h-6 w-6 fill-current md:h-8 md:w-8" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path></svg>
+            </button>
+        </div>
+        <div class="navbar-center">
+            <h1 class="text-xl font-bold">Visualizador</h1>
+        </div>
+        <div class="navbar-end">
+        
+        </div>
+    </div>
+    <div class="w-full flex relative aspect-square border-2 rounded-sm border-dashed border-neutral-content">
+        <div *ngFor="let imagem of imagensDisponiveis" class="carousel w-full items-center">
+            <div id="imagem?.imgName" class="carousel-item w-full">
+                <img [src]="imagem?.imgUrl" class="w-full" />
+            </div>
+        </div>
+        <div *ngFor="let imagem of imagensDisponiveis; let i = index" class="absolute bottom-0 flex w-full justify-center gap-2 py-2">
+            <a class="btn btn-xs">{{i+1}}</a>
+        </div>
+    </div>
+</div>

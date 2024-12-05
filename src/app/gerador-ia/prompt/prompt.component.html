@@ -1,45 +1,107 @@
-<div class="w-full flex flex-col h-full justify-center gap-2">
-    <div class="w-full relative">
-        <img class="rounded-sm object-cover object-top" width="640" height="896" [ngSrc]="bannerPrompt"
-            alt="Camiseta" />
-    </div>
-    <div class="flex flex-col gap-1">
-        <h2 class="w-full text-sm">Digite sua arte:</h2>
-        <textarea class="textarea textarea-bordered w-full h-32" placeholder="Um gato astronauta tomando café..."></textarea>
-        <div class="flex flex-row justify-end gap-2 items-center">
-            <span class="text-sm">Proporção da imagem:</span>
-            <input type="radio" aria-label="1:1" class="btn btn-xs" name="proporcao-imagem" checked/>
-            <input type="radio" aria-label="4:3" class="btn btn-xs" name="proporcao-imagem"/>
-            <input type="radio" aria-label="3:4" class="btn btn-xs" name="proporcao-imagem"/>
-            <!--button class="btn btn-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 16 16"
-                    stroke="currentColor" stroke-width="1.5">
-                    <path
-                        d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-                </svg>
-                1:1
+<div class="w-full flex flex-col h-full justify-between gap-8">
+    <div class="navbar bg-base-100">
+        <div class="navbar-start">
+            <button (click)="voltarParaIntroducao()">
+                <svg class="h-6 w-6 fill-current md:h-8 md:w-8" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path></svg>
             </button>
-
-            <button class="btn btn-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 16 16"
-                    stroke="currentColor" stroke-width="1" transform="rotate(90)">
-                    <path
-                        d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1" />
-                </svg>
-                4:3
-            </button>
-
-            <button class="btn btn-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 16 16"
-                    stroke="currentColor" stroke-width="1">
-                    <path
-                        d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1" />
-                </svg>
-                3:4
-            </button-->
         </div>
-        <button class="btn bg-gradient-to-r from-primary to-secondary btn-block text-base text-primary-content font-semibold mt-4">        
+        <div class="navbar-center">
+            <h1 class="text-xl font-bold">Gerador de Imagem</h1>
+        </div>
+        <div class="navbar-end">
+          
+        </div>
+    </div>
+    <div class="flex flex-col gap-8 flex-auto">
+        <div class="flex flex-col gap-1 flex-auto">
+            <h2 class="w-full text-sm font-semibold">Descreva como gostaria sua estampa:</h2>
+            <textarea (keyup)="validarTexto($event)" maxlength="1000" class="textarea textarea-bordered h-32 w-full flex-auto">{{textoPrompt}}</textarea>
+            <div class="flex flex-row justify-between">
+                <h3 class="text-xs"></h3>
+                <h3 class="text-xs">{{textoPrompt.length}} / 1000</h3>
+            </div>
+        </div>
+        <div class="flex flex-col gap-1">
+            <h2 class="w-full text-sm font-semibold">Escolha o principal estilo da arte:</h2>
+            <div class="flex flex-row flex-wrap gap-2 max-h-32 w-full overflow-auto">
+                <input class="btn btn-sm" type="radio" name="estilo" aria-label="3D Model" />
+                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Anime" />
+                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Pop Art" />
+                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Pixel Art" />
+                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Abstract" />
+                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Line Art" />
+                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Close-Up" />
+                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Photorealistc" />
+            </div>
+        </div>
+        <div class="flex flex-col gap-1">
+            <h2 class="w-full text-sm font-semibold">Escolha elemento(s) para compor a estampa:</h2>
+            <div class="flex flex-row flex-wrap gap-2 max-h-32 w-full overflow-auto">
+                <input class="btn btn-sm" type="checkbox"  aria-label="3D Model" />
+                <input class="btn btn-sm" type="checkbox"  aria-label="Anime" />
+                <input class="btn btn-sm" type="checkbox"  aria-label="Pop Art" />
+                <input class="btn btn-sm" type="checkbox"  aria-label="Pixel Art" />
+                <input class="btn btn-sm" type="checkbox"  aria-label="Abstract" />
+                <input class="btn btn-sm" type="checkbox"  aria-label="Line Art" />
+                <input class="btn btn-sm" type="checkbox"  aria-label="Close-Up" />
+                <input class="btn btn-sm" type="checkbox"  aria-label="Photorealistc" />
+            </div>
+        </div>
+        <div class="flex flex-row gap-2 items-end">
+            <div class="flex flex-col basis-1/2">
+                <h2 class="w-full text-sm font-semibold">Resolução</h2>
+                <select class="select select-bordered w-full" (change)="selecionarTamanho($event)">
+                    <option *ngFor="let tamanho of tamanhosDisponiveis" [value]="tamanho?.aspectRatio">{{tamanho?.aspectRatio + " (" + tamanho?.width + " x " + tamanho?.height + ")"}}</option>
+                </select>
+            </div>
+            <div class="flex flex-col basis-1/2">
+                <button class="btn" onclick="modal_opcoes_avancadas.showModal()">Mais opções</button>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row gap-4">
+        <button (click)="irParaPrevia()" class="btn bg-gradient-to-r from-primary to-secondary text-base text-primary-content font-semibold w-full">        
             Gerar imagem
         </button>
     </div>
 </div>
+
+<dialog id="modal_opcoes_avancadas" class="modal modal-bottom">
+    <div class="modal-box flex flex-col gap-4">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <div class="flex flex-col gap-1">
+            <h2 class="w-full text-sm font-semibold">Modelo</h2>
+            <select class="select select-bordered w-full" (change)="selecionarModelo($event)">
+                <option *ngFor="let modelo of modelosDisponiveis" [value]="modelo?.modelId">{{modelo?.modelDisplay}}</option>
+            </select>
+        </div>
+        
+        <div class="flex flex-col gap-1">
+            <h2 class="w-full text-sm font-semibold">Número de imagens por lote</h2>
+            <div class="join w-full">
+                <input class="join-item btn basis-1/4" type="radio" name="lote" aria-label="1" checked="checked"/>
+                <input class="join-item btn basis-1/4" type="radio" name="lote" aria-label="2" />
+                <input class="join-item btn basis-1/4" type="radio" name="lote" aria-label="3" />
+                <input class="join-item btn basis-1/4" type="radio" name="lote" aria-label="4" />
+            </div>
+        </div>
+        <div class="flex flex-col gap-1">
+            <h2 class="w-full text-sm font-semibold">Qualidade da imagem</h2>
+            <input type="range" min="1" max="60" value="25" class="range range-primary" />
+            <div class="flex w-full justify-between px-2 text-xs">
+                <span>Simples</span>
+                <span>Detalhada</span>
+            </div>
+        </div>
+        <div class="flex flex-col gap-1">
+            <h2 class="w-full text-sm font-semibold">Fidelidade a sua descrição</h2>
+            <input type="range" min="1" max="30" value="4.5" class="range range-primary" />
+            <div class="flex w-full justify-between px-2 text-xs">
+                <span>Pouco fiel</span>
+                <span>Muito fiel</span>
+            </div>
+        </div>
+    </div>
+</dialog>
