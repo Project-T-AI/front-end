@@ -13,13 +13,13 @@
         </div>
     </div>
     <div class="w-full flex relative aspect-square border-2 rounded-sm border-dashed border-neutral-content">
-        <div *ngFor="let imagem of imagensDisponiveis" class="carousel w-full items-center">
-            <div id="imagem?.imgName" class="carousel-item w-full">
+        <div class="carousel w-full items-center">
+            <div *ngFor="let imagem of imagensDisponiveis" id="imagem?.imgName" class="carousel-item w-full">
                 <img [src]="imagem?.imgUrl" class="w-full" />
             </div>
         </div>
-        <div *ngFor="let imagem of imagensDisponiveis; let i = index" class="absolute bottom-0 flex w-full justify-center gap-2 py-2">
-            <a class="btn btn-xs">{{i+1}}</a>
+        <div class="absolute bottom-0 flex w-full justify-center gap-2 py-2">
+            <a *ngFor="let imagem of imagensDisponiveis; let i = index" class="btn btn-xs">{{i+1}}</a>
         </div>
     </div>
 </div>

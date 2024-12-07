@@ -1,7 +1,7 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
-import { PromptService } from './prompt.service';
-import { PicLumenModelo, PicLumenModelosResponse } from './prompt.types';
+import { GeradorIaService } from '.././gerador-ia.service';
+import { PicLumenModelo, PicLumenModelosResponse } from '../gerador-ia.types';
 import { TAMANHOS } from './prompt.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -23,14 +23,20 @@ export class PromptComponent implements OnInit {
   tamanhosDisponiveis = TAMANHOS;
   tamanhoEscolhido = TAMANHOS[0];
 
-  constructor(private activatedRoute:ActivatedRoute, private router:Router, private promptService: PromptService) {}
+  numEtapas: number = 25;
+  qtdeImagens: number = 1;
+  precisaAprimorar: any = true;
+
+  constructor(
+    private router:Router, 
+    private geradorIaService: GeradorIaService) {}
 
   ngOnInit(): void {
     this.dispararChamadaCarregarModelos();
   }
   
   dispararChamadaCarregarModelos() {
-    const modelos$ = this.promptService.carregarModelos();
+    const modelos$ = this.geradorIaService.carregarModelos();
 
     modelos$.subscribe({
       next: (retorno) => this.carregarModelosSucesso(retorno),
@@ -61,16 +67,32 @@ export class PromptComponent implements OnInit {
     }) || this.tamanhosDisponiveis?.[0];
   }
 
+  selecionarQtdeEtapas(event: any) {
+    this.qtdeImagens = Number(event.target.ariaLabel);
+  }
+
+  atualizarNumEtapas(event: any) {
+    this.numEtapas = Number(event?.target?.value) || 25
+  }
+
   validarTexto(event: any) {
     this.textoPrompt = event?.target?.value;
   }
 
-  irParaPrevia() {
-    const parametrosPrevia = {
-      textoPrompt: this.textoPrompt
+  irParaProcessamento() {
+    const contexto = {
+      parametrosImagem: {
+        modelId: this.modeloEscolhido?.modelId,
+        textoPrompt: this.textoPrompt,
+        altura: this.tamanhoEscolhido.height,
+        largura: this.tamanhoEscolhido.width,
+        numEtapas: this.numEtapas,
+        qtdeImagens: this.qtdeImagens,
+        precisaAprimorar: this.precisaAprimorar
+      }
     };
     
-    this.router.navigate(["gerador", "previa"], {skipLocationChange: true, state: parametrosPrevia});
+    this.router.navigate(["gerador", "processamento"], {skipLocationChange: true, state: contexto});
   }
 
   voltarParaIntroducao() {

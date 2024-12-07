@@ -14,6 +14,9 @@ export const GERADOR_ROUTES: Routes = [{
         path: "prompt",
         loadComponent: () => import("./prompt/prompt.component").then(c => c.PromptComponent),
     },{
+        path: "processamento",
+        loadComponent: () => import("./processamento/processamento.component").then(c => c.ProcessamentoComponent),
+    },{
         path: "previa",
         loadComponent: () => import("./previa/previa.component").then(c => c.PreviaComponent),
     },{

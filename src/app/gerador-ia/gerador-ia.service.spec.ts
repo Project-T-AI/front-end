@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PromptService } from './prompt.service';
+import { GeradorIaService } from './gerador-ia.service';
 
-describe('PromptService', () => {
-  let service: PromptService;
+describe('GeradorIaService', () => {
+  let service: GeradorIaService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PromptService);
+    service = TestBed.inject(GeradorIaService);
   });
 
   it('should be created', () => {

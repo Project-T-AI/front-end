@@ -1,3 +1,14 @@
+export type PicLumenTranslatePayload = {
+    prompt: string
+    mode: "translation" | "enhance"
+}
+
+export type PicLumenTranslateResponse = {
+    data: string
+    message: string
+    status: number
+}
+
 export type PicLumenModelosResponse = {
     status: number
     message: string
