@@ -3,13 +3,13 @@ export const TAMANHOS = [{
     height: 1024,
     aspectRatio: "1:1"
 }, {
-    width: 1344,
-    height: 768,
-    aspectRatio: "16:9"
+    width: 1216,
+    height: 832,
+    aspectRatio: "3:2"
 }, {
-    width: 768,
-    height: 1344,
-    aspectRatio: "9:16"
+    width: 832,
+    height: 1216,
+    aspectRatio: "2:3"
 }, {
     width: 1152,
     height: 896,
@@ -19,18 +19,6 @@ export const TAMANHOS = [{
     height: 1152,
     aspectRatio: "3:4"
 }, {
-    width: 896,
-    height: 1152,
-    aspectRatio: "3:4"
-}, {
-    width: 1216,
-    height: 832,
-    aspectRatio: "3:2"
-}, {
-    width: 832,
-    height: 1216,
-    aspectRatio: "2:3"
-}, {
     width: 1216,
     height: 768,
     aspectRatio: "8:5"
@@ -38,6 +26,14 @@ export const TAMANHOS = [{
     width: 768,
     height: 1216,
     aspectRatio: "5:8"
+}, {
+    width: 1344,
+    height: 768,
+    aspectRatio: "16:9"
+}, {
+    width: 768,
+    height: 1344,
+    aspectRatio: "9:16"
 }, {
     width: 1536,
     height: 640,

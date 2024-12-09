@@ -1,8 +1,12 @@
-cropper-canvas {
-    height: 400px;
-    overflow: auto;
+:host {
+    --cropper-overlay-color: theme(colors.transparent);
 }
 
-cropper-viewer {
-    
+.range-tranparent {
+    --range-shdw: theme(colors.transparent);
+}
+
+.range::-webkit-slider-thumb {
+    --teste: theme(colors.primary);
+    background-color: var(--teste);
 }

@@ -55,7 +55,7 @@ export class ProcessamentoComponent implements OnInit {
   }
 
   traduzirSucesso(retorno: PicLumenTranslateResponse) {
-    this.parametrosImagem.textoPrompt = retorno?.data;
+    this.parametrosImagem.textoPrompt = retorno?.data ?? this.parametrosImagem.textoPrompt;
     this.dispararChamadaAprimorar();
   }
 
@@ -79,7 +79,7 @@ export class ProcessamentoComponent implements OnInit {
   }
 
   aprimorarSucesso(retorno: PicLumenTranslateResponse) {
-    this.parametrosImagem.textoPrompt = retorno.data;
+    this.parametrosImagem.textoPrompt = retorno?.data  ?? this.parametrosImagem.textoPrompt;
     this.dispararChamadaGerarImagem();
   }
 
@@ -133,7 +133,7 @@ export class ProcessamentoComponent implements OnInit {
   }
 
   dispararAcompanharStatusImagem(retorno: PicLumenCreateResponse) {
-    this.textoLoader = "Status do processamento: Novo";
+    this.textoLoader = "Status do processamento: novo";
     const parametros: PicLumenProcessTaskPayload = new FormData();
     parametros.append("markId", retorno?.data?.markId);
     const imagem$ = this.geradorIaService.baixarImagem(parametros);
@@ -141,7 +141,8 @@ export class ProcessamentoComponent implements OnInit {
     imagem$.pipe(
       repeat({delay: 3000}),
       skipWhile((retorno) => {
-        this.textoLoader = `Status do processamento: ${retorno?.data?.status}`;
+        const status = this.traduzirStatus(retorno?.data?.status);
+        this.textoLoader = `Status do processamento: ${status}`;
         return retorno?.data?.status != "success" && retorno?.data?.status != "failure"
       }),
       take(1),
@@ -160,6 +161,22 @@ export class ProcessamentoComponent implements OnInit {
 
   acompanharStatusImagemErro() {
 
+  }
+
+  traduzirStatus(status: string): string {
+    switch (status) {
+      case "newbuilt":
+        status = "novo";
+        break;
+      case "processing":
+        status = "processando";
+        break;
+      case "running":
+        status = "renderizando";
+        break;
+    }
+
+    return status;
   }
 
   irParaPrevia() {

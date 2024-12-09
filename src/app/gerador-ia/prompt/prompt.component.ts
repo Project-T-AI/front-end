@@ -23,9 +23,14 @@ export class PromptComponent implements OnInit {
   tamanhosDisponiveis = TAMANHOS;
   tamanhoEscolhido = TAMANHOS[0];
 
-  numEtapas: number = 25;
+  hashtagDigitada: string = "";
+  hashtags: string[] = [];
+
+  maxQtdeImagens:number = 4;
   qtdeImagens: number = 1;
-  precisaAprimorar: any = true;
+
+  numEtapas: number = 25;
+  precisaAprimorar: any = false;
 
   constructor(
     private router:Router, 
@@ -53,11 +58,36 @@ export class PromptComponent implements OnInit {
     
   }
 
+  validarHashtag(event: any) {
+    this.hashtagDigitada = String(event?.target?.value);
+  }
+
+  adicionarHashtag() {
+    this.hashtags.push(this.hashtagDigitada);
+    this.hashtagDigitada = "";
+  }
+
+  removerHashtag(index: number) {
+    this.hashtags.splice(index, 1);
+  }
+
   selecionarModelo(event: any) {
     const modelId = event?.target?.value;
     this.modeloEscolhido = this.modelosDisponiveis.find((modelo) => {
       return modelo?.modelId == modelId;
     }) || this.modelosDisponiveis?.[0];
+
+    this.limitarQtdeImagens();    
+  }
+
+  limitarQtdeImagens() {
+    //Este modelo suporta apenas 2 imagens geradas por vez
+    if(this.modeloEscolhido?.modelId == "23887bba-507e-4249-a0e3-6951e4027f2b") {
+      this.qtdeImagens = Math.min(this.qtdeImagens, 2);
+      this.maxQtdeImagens = 2;
+    } else {
+      this.maxQtdeImagens = 4;
+    }
   }
 
   selecionarTamanho(event: any) {
@@ -67,7 +97,7 @@ export class PromptComponent implements OnInit {
     }) || this.tamanhosDisponiveis?.[0];
   }
 
-  selecionarQtdeEtapas(event: any) {
+  selecionarQtdeImagens(event: any) {
     this.qtdeImagens = Number(event.target.ariaLabel);
   }
 
@@ -80,10 +110,14 @@ export class PromptComponent implements OnInit {
   }
 
   irParaProcessamento() {
+    let textoHashtags = "";
+    if(this.hashtags.length) {
+      textoHashtags = "Considere a imagem com os seguintes elementos artísticos de " + this.hashtags.join(", ") + ". ";
+    }
     const contexto = {
       parametrosImagem: {
         modelId: this.modeloEscolhido?.modelId,
-        textoPrompt: this.textoPrompt,
+        textoPrompt: textoHashtags + this.textoPrompt,
         altura: this.tamanhoEscolhido.height,
         largura: this.tamanhoEscolhido.width,
         numEtapas: this.numEtapas,

@@ -14,37 +14,36 @@
     </div>
     <div class="flex flex-col gap-8 flex-auto">
         <div class="flex flex-col gap-1 flex-auto">
-            <h2 class="w-full text-sm font-semibold">Descreva como gostaria sua estampa:</h2>
+            <div class="flex flex-row justify-between">
+                <h2 class="w-full text-sm font-semibold">Descreva como gostaria sua estampa:</h2>
+                <span class="badge badge-warning">Obrigatório</span>
+            </div>
             <textarea (keyup)="validarTexto($event)" maxlength="1000" class="textarea textarea-bordered h-32 w-full flex-auto">{{textoPrompt}}</textarea>
             <div class="flex flex-row justify-between">
-                <h3 class="text-xs"></h3>
+                <div class="flex flex-row gap-1">
+                    <input type="checkbox" [checked]="precisaAprimorar" (change)="precisaAprimorar = !precisaAprimorar" class="checkbox checkbox-primary checkbox-xs" />
+                    <h2 class="w-full text-xs font-semibold">Aprimorar descrição com IA</h2>
+                </div>
                 <h3 class="text-xs">{{textoPrompt.length}} / 1000</h3>
             </div>
         </div>
         <div class="flex flex-col gap-1">
-            <h2 class="w-full text-sm font-semibold">Escolha o principal estilo da arte:</h2>
-            <div class="flex flex-row flex-wrap gap-2 max-h-32 w-full overflow-auto">
-                <input class="btn btn-sm" type="radio" name="estilo" aria-label="3D Model" />
-                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Anime" />
-                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Pop Art" />
-                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Pixel Art" />
-                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Abstract" />
-                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Line Art" />
-                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Close-Up" />
-                <input class="btn btn-sm" type="radio" name="estilo" aria-label="Photorealistc" />
+            <div class="flex flex-row justify-between">
+                <h2 class="w-full text-sm font-semibold">Escolha tags para compor a estampa:</h2>
+                <span class="badge badge-info">Opcional</span>
             </div>
-        </div>
-        <div class="flex flex-col gap-1">
-            <h2 class="w-full text-sm font-semibold">Escolha elemento(s) para compor a estampa:</h2>
-            <div class="flex flex-row flex-wrap gap-2 max-h-32 w-full overflow-auto">
-                <input class="btn btn-sm" type="checkbox"  aria-label="3D Model" />
-                <input class="btn btn-sm" type="checkbox"  aria-label="Anime" />
-                <input class="btn btn-sm" type="checkbox"  aria-label="Pop Art" />
-                <input class="btn btn-sm" type="checkbox"  aria-label="Pixel Art" />
-                <input class="btn btn-sm" type="checkbox"  aria-label="Abstract" />
-                <input class="btn btn-sm" type="checkbox"  aria-label="Line Art" />
-                <input class="btn btn-sm" type="checkbox"  aria-label="Close-Up" />
-                <input class="btn btn-sm" type="checkbox"  aria-label="Photorealistc" />
+            <div class="flex flex-col justify-between items-center h-48 bg-base-200 rounded-md p-2">
+                <div class="flex flex-row flex-wrap gap-2 w-full overflow-auto font-bold">
+                    <button (click)="removerHashtag(i)" *ngFor="let hashtag of hashtags; index as i" class="btn btn-sm btn-primary btn-outline">
+                        #{{hashtag}}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-4 w-4 stroke-current"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <label class="input input-ghost flex items-center gap-2 w-full">
+                    #
+                    <input [value]="hashtagDigitada" (keyup)="validarHashtag($event)" type="text" class="bg-transparent grow" placeholder="Digite aqui suas tags..." />
+                    <button (click)="adicionarHashtag()" class="btn btn-sm btn-ghost font-extrabold text-2xl" [disabled]="!hashtagDigitada">+</button>
+                </label>
             </div>
         </div>
         <div class="flex flex-row gap-2 items-end">
@@ -60,7 +59,7 @@
         </div>
     </div>
     <div class="flex flex-row gap-4">
-        <button (click)="irParaProcessamento()" class="btn bg-gradient-to-r from-primary to-secondary text-base text-primary-content font-semibold w-full">        
+        <button (click)="irParaProcessamento()" [ngClass]="textoPrompt ? 'bg-gradient-to-r from-primary to-secondary text-base text-primary-content' : ''" class="btn font-semibold w-full" [disabled]="!textoPrompt">        
             Gerar imagem
         </button>
     </div>
@@ -71,6 +70,7 @@
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
+        
         <div class="flex flex-col gap-1">
             <h2 class="w-full text-sm font-semibold">Modelo</h2>
             <select class="select select-bordered w-full" (change)="selecionarModelo($event)">
@@ -81,16 +81,18 @@
         <div class="flex flex-col gap-1">
             <h2 class="w-full text-sm font-semibold">Número de imagens por lote</h2>
             <div class="join w-full">
-                <input (change)="selecionarQtdeEtapas($event)" class="join-item btn basis-1/4" type="radio" name="lote" aria-label="1" checked="checked"/>
-                <input (change)="selecionarQtdeEtapas($event)" class="join-item btn basis-1/4" type="radio" name="lote" aria-label="2" />
-                <input (change)="selecionarQtdeEtapas($event)" class="join-item btn basis-1/4" type="radio" name="lote" aria-label="3" />
-                <input (change)="selecionarQtdeEtapas($event)" class="join-item btn basis-1/4" type="radio" name="lote" aria-label="4" />
+                <input 
+                    *ngFor="let numQtde of [1,2,3,4]" 
+                    (change)="selecionarQtdeImagens($event)" 
+                    class="join-item btn basis-1/4" 
+                    type="radio" name="lote" 
+                    [attr.aria-label]="numQtde" 
+                    [checked]="qtdeImagens == numQtde ? 'checked' : ''" 
+                    [disabled]="maxQtdeImagens < numQtde"
+                />
             </div>
         </div>
-        <div class="flex flex-row gap-3 items-center">
-            <input type="checkbox" [checked]="precisaAprimorar" (change)="precisaAprimorar = !precisaAprimorar" class="checkbox checkbox-primary" />
-            <h2 class="w-full text-sm font-semibold">Aprimorar descrição</h2>
-        </div>
+
         <div class="flex flex-col gap-1">
             <h2 class="w-full text-sm font-semibold">Qualidade da imagem</h2>
             <input type="range" min="1" max="60" [value]="numEtapas" (change)="atualizarNumEtapas($event)" class="range range-primary" />
@@ -99,6 +101,7 @@
                 <span>Detalhada</span>
             </div>
         </div>
+
         <div class="flex flex-col gap-1">
             <h2 class="w-full text-sm font-semibold">Fidelidade a sua descrição</h2>
             <input type="range" min="1" max="30" value="4.5" class="range range-primary" />
